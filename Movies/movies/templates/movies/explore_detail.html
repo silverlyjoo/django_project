@@ -1,0 +1,58 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+Postlist
+{% endblock %}
+
+{% block content %}
+<style type="text/css">
+body {
+background-color:white;
+}
+</style>
+
+
+<div class="d-flex justify-content-between align-items-center">
+<div class="text-center text-dark ml-3 mt-5">
+<h1 style="font-family:'Jua', sans-serif; display: inline;">{{ people.profile.nickname }} 팔로잉 목록</h1>
+</div>
+</div>
+<br>
+
+
+<div class="list-group mx-5"> {% for person in people.followings.all %}
+    <div class="list-group-item list-group-item-action">
+        {{ person.profile.nickname }}
+        <hr>
+        <p>{{ person.profile.nickname }}님이 좋아요를 누른 영화 목록</p>
+        <br> {% for movie in person.like_movies.all %}
+        <div><a href="{% url 'movies:moviedetail' movie.pk %}">{{ movie.title }}</a></div>
+        {% empty %}
+        <div>좋아요를 누른 영화가 없습니다</div>
+        {% endfor %}
+        <br>
+        <hr>
+        <p>{{ person.profile.nickname }}님이 남긴 영화 리뷰 목록</p>
+        <br> {% for post in person.post_set.all %}
+        <div><a href="{% url 'movies:postdetail' post.pk %}">[{{ post.movie.title }}] - {{ post.title }} : {{ post.score }}점</a></div>
+        {% empty %}
+        <div>영화 리뷰가 없습니다</div>
+        {% endfor %}
+        <br>
+        <hr>
+        <p>{{ person.profile.nickname }}님이 남긴 영화 댓글 목록</p>
+        <br> {% for score in person.score_set.all %}
+        <div><a href="{% url 'movies:moviedetail' score.movie.pk %}">[{{ score.movie.title }}] - {{ score.content }} : {{ score.score }}점</a></div>
+        {% empty %}
+        <div>댓글이 없습니다</div>
+        {% endfor %}
+        <br>
+</div>
+{% endfor %}
+</div>
+
+{% endblock %}
+
+
+

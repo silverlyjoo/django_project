@@ -1,0 +1,15 @@
+<div class="row">
+    {% for indexitem in indexlist %}
+    <div class="col-xl-3 col-md-6 col-12">
+        <div class="card bg-light mb-3 p-0">
+          <a class="card-header list-group-item-action" href="{% url 'movies:listbydirector' indexitem.pk %}"><h2 style="font-family: 'East Sea Dokdo', cursive;">{{ indexitem }}</h2></a>
+          <div class="card-body">
+            <!--<h5 class="card-title">{{ indexitem }}</h5>-->
+            {% for movie in indexitem.movie_set.all %}
+            <p class="card-text" style="font-family: 'Noto Sans KR', sans-serif;">{{ movie }}</p>
+            {% endfor %}
+          </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

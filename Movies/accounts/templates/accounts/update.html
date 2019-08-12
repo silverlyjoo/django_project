@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+
+<style type="text/css">
+    h1 {
+        color:#fff;
+    }
+</style>
+
+<h1>회원정보 변경</h1>
+
+<form method="POST" class="bg-light p-3 rounded mt-3">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <input type="submit" value="변경완료" class="btn btn-primary"/>
+</form>
+
+{% endblock %}
+

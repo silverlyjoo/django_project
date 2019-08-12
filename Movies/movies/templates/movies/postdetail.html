@@ -1,0 +1,93 @@
+{% extends 'base.html' %}{% load static %}
+{% block title %}Post{% endblock %}
+{% block content %}
+
+<style type="text/css">
+body {
+background-color:white;
+}
+
+.site-section-cover h1 {
+font-size: 3rem;
+color: #fff;
+line-height: 1;
+}
+
+.jumbotron {
+    background-color: rgb(182, 174, 235);
+    text-align: center!important;
+}
+
+.blockquote p {
+    background: #f9f9ff;
+    border-left: 2px solid #6f6fff;
+    padding: 30px;
+}
+</style>
+
+<section class="site-section mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 sidebar">
+                <div class="sidebar-box">
+                    <h1 class="text-black" style="font-family: 'Jua', sans-serif;">{{ post.user.profile.nickname }}</h1>
+                    <h5 style="font-family: 'Nanum Pen Script', cursive;">{{ post.user.profile.introduction }}</h5>
+                    <p><a href="{% url 'people' post.user %}" class="btn btn-primary btn-md">프로필 보기</a></p>
+                </div>
+                <br>
+                <br>
+                
+                    <hr>
+                <div class="sidebar-box mb-3">
+                    <h3 class="text-black" style="font-family: 'Nanum Pen Script', cursive;">다른 리뷰들</h3>
+                    <br>
+                        {% for post1 in post.user.post_set.all %}
+                        <div class="list-group">
+                            {% if post1 != post %}
+                            <a class="list-group-item list-group-item-action" href="{% url 'movies:postdetail' post1.pk %}" style="font-family: 'Noto Sans KR', sans-serif;">
+                                <p>{{ post1.movie.title }} : {{ post1.score}} 점</p><p>- {{ post1.title }}</p></a>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-9 blog-content">
+                <div class="jumbotron jumbotron-fluid p-3">
+                  <div class="container">
+                    <a href="{% url 'movies:moviedetail' post.movie.pk %}"><p class="lead mx-2" style="font-family: 'Noto Sans KR', sans-serif;"><b>{{ post.movie }}</b></p></a>
+                    <h1 class="display-4" style="font-family: 'Black Han Sans', sans-serif;">{{ post.title }}</h1>
+                    <hr class="my-4">
+                    <span class="lead badge badge-pill badge-light">{{ post.score }}점</span>
+                    <a href="{% url 'movies:rec_post' post.pk  %}" class="badge alert-primary badge-pill mx-1">공감</a>{{ post.rec_users.count }}
+                    <a href="{% url 'movies:not_rec_post' post.pk  %}" class="badge alert-danger badge-pill mx-1">비공감</a>{{ post.not_rec_users.count }}
+                  </div>
+                </div>
+                <blockquote class="blockquote">
+					<p class="mb-0" style="font-family: 'Noto Serif KR', serif;">{{ post.content }}</p>
+				</blockquote>
+                <div class="pt-3">
+                    <p style="font-family: 'Noto Sans KR', sans-serif;">
+                        Categories: {% for genre in post.movie.genres.all %}<a href="{% url 'movies:listbygenre' genre.pk %}">{{ genre }}</a> {% endfor %}
+                    </p>
+                </div>
+                <br>
+                <br>
+                <div class="d-flex justify-content-end">
+                    <a href="{% url 'movies:postlist' %}" class="btn btn-primary mx-1" style="font-family: 'Jua', sans-serif;">뒤로</a>
+                    {% if post.user == user %}
+                    <a href="{% url 'movies:post_update' post.pk %}" class="btn btn-warning mx-1" style="font-family: 'Jua', sans-serif;">수정</a>
+                    <form action="{% url 'movies:post_delete' post.pk %}" method="POST" style="display:inline; style="font-family: 'Jua', sans-serif;"">
+                        {% csrf_token %}
+                        <input type="submit" value="삭제" class="btn btn-danger mx-1"/>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+{% endblock %}

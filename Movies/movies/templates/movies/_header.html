@@ -1,0 +1,26 @@
+{% load static %}
+<style type="text/css">
+    .section {
+            height: 100%;
+            background: url({% static 'movies/images/space.jpg' %}) no-repeat;
+            /*background-color: mediumpurple;*/
+            background-position: 50% 50%;
+            background-size: cover;
+        }
+    .section:hover {
+            opacity : 0.7;
+        }
+</style>
+
+<div class="fluid">
+    <div class="section text-center" id="home">
+        <h2 class="text-light" style="font-family: 'Lobster', cursive;">
+            Welcome to NEBULA <img src="{% static 'movies/images/saturn.png'%}" style="height:40px; width:40px;"></img>
+        </h2>
+        <h2 class="text-light" style="font-family: 'Yeon Sung', cursive;">
+            {% if user.is_authenticated %}
+            {{ user.profile.nickname }} 님
+            {% endif %}
+        </h2>
+    </div>
+</div>

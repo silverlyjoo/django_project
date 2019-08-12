@@ -1,0 +1,101 @@
+[
+{
+    "model": "movies.score",
+    "pk": 13,
+    "fields": {
+        "user": 10,
+        "movie": 49,
+        "content": "asdf",
+        "score": 4,
+        "created_at": "2019-05-15T17:40:54.516"
+    }
+},
+{
+    "model": "movies.score",
+    "pk": 14,
+    "fields": {
+        "user": 10,
+        "movie": 1,
+        "content": "1",
+        "score": 4,
+        "created_at": "2019-05-15T17:58:03.777"
+    }
+},
+{
+    "model": "movies.score",
+    "pk": 15,
+    "fields": {
+        "user": 11,
+        "movie": 6,
+        "content": "\uc880 \uc794\uc778\ud558\uae34\ud55c\ub370 \uad1c\ucc2e\uc558\uc2b5\ub2c8\ub2e4",
+        "score": 7,
+        "created_at": "2019-05-16T13:02:45.445"
+    }
+},
+{
+    "model": "movies.score",
+    "pk": 16,
+    "fields": {
+        "user": 11,
+        "movie": 68,
+        "content": "\ubb34\uc11c\uc6c0 \u3160\u3160",
+        "score": 7,
+        "created_at": "2019-05-16T13:03:04.925"
+    }
+},
+{
+    "model": "movies.score",
+    "pk": 17,
+    "fields": {
+        "user": 11,
+        "movie": 3,
+        "content": "\ub300\uc804\ub3c4 \ub3c4\uc2dc\uc758 \uc218\ud638\uc790\uac00 \ud544\uc694\ud569\ub2c8\ub2e4",
+        "score": 8,
+        "created_at": "2019-05-16T13:03:26.733"
+    }
+},
+{
+    "model": "movies.score",
+    "pk": 18,
+    "fields": {
+        "user": 9,
+        "movie": 54,
+        "content": "\ubca0\ub124\ub515\ud2b8 \uc644\uc804 \uac1c\uc874\uc798\ub0b4\uc2a4\ud0c0\uc77c",
+        "score": 8,
+        "created_at": "2019-05-16T13:17:40.785"
+    }
+},
+{
+    "model": "movies.score",
+    "pk": 19,
+    "fields": {
+        "user": 9,
+        "movie": 54,
+        "content": "\ud589\ubcf5\ud574",
+        "score": 10,
+        "created_at": "2019-05-16T13:17:53.396"
+    }
+},
+{
+    "model": "movies.score",
+    "pk": 20,
+    "fields": {
+        "user": 7,
+        "movie": 61,
+        "content": "10\uc810 \ub9cc\uc810\uc5d0 10\uc810",
+        "score": 10,
+        "created_at": "2019-05-16T14:16:52.818"
+    }
+},
+{
+    "model": "movies.score",
+    "pk": 21,
+    "fields": {
+        "user": 7,
+        "movie": 80,
+        "content": "\uacbd\uc774\ub85c\uc6b4 \uad11\uacbd\uc744 \ubcf4\uc558\uc2b5\ub2c8\ub2e4.",
+        "score": 10,
+        "created_at": "2019-05-16T14:21:58.145"
+    }
+}
+]

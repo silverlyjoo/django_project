@@ -1,0 +1,29 @@
+<div class="row">
+{% for movie in movies %}
+    <a class="card bg-dark text-white col-xl-4 col-md-6 col-12 list-group-item-action p-0" href="{% url 'movies:moviedetail' movie.id %}">
+      <img src="{{ movie.poster_url}}" class="card-img" style="opacity:0.7;" alt="{{ movie.title }}사진">
+      <div class="card-img-overlay">
+        <h1 class="card-title" style="font-family: 'East Sea Dokdo', cursive;"><strong>{{ movie.title }}</strong></h1>
+        <p class="card-text" style="font-family: 'Noto Sans KR', sans-serif;">{{ movie.overview|truncatechars:96 }}</p>
+        <h5><span class="badge alert-primary badge-pill">API 기준 : {{ movie.vote }}점</span></h5>
+        {% if movie.s_score %}
+        <h5><span class="badge alert-info badge-pill">댓글 기준 : {{ movie.s_score }}점</span></h5> 
+        {% else %}
+        <h5><span class="badge alert-info badge-pill">댓글 평점이 없습니다</span></h5> 
+        {% endif %}
+        {% if movie.p_score %}
+        <h5><span class="badge alert-warning badge-pill">리뷰 기준 : {{ movie.p_score }}점</span></h5> 
+        {% else %}
+        <h5><span class="badge alert-warning badge-pill">리뷰 평점이 없습니다</span></h5> 
+        {% endif %}
+        {% if request.resolver_match.url_name == 'poplist' %}
+        <h5><span class="badge alert-danger badge-pill">인기도 : {{ movie.popularity }}</span></h5>
+        {% elif request.resolver_match.url_name == 'listbyaudience' %}
+        <h5><span class="badge alert-danger badge-pill">{{ movie.audience }}명</span></h5>
+        {% endif %}
+      </div>
+    </a>
+{% endfor %}
+</div>
+
+

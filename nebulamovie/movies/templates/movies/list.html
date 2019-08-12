@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block title %}
+list
+{% endblock %}
+
+{% block content %}
+
+<style type="text/css">
+    
+    h1 {
+        color: white;
+        font-family: 'Anton', sans-serif;
+    }
+</style>
+
+<!--<div id=""></div>-->
+
+
+<!--각 리스트들 이름과 뒤로가기 구현-->
+<div class="mt-5 mb-4">
+    {% if request.resolver_match.url_name == 'listbytitle' %}
+    <h1>Movie List <a href="{% url 'movies:index' %}" class="btn btn-primary mx-2" style="font-family: 'Jua', sans-serif;">뒤로</a></h1>
+    {% elif request.resolver_match.url_name == 'listbygenre' %}
+    <h1>Genre : <button class="btn btn-outline-light" style="font-family: 'Noto Sans KR', sans-serif;">{{ genre.name }}</button> List <a href="{% url 'movies:genrelist' %}" class="btn btn-primary mx-2" style="font-family: 'Jua', sans-serif;">뒤로</a></h1>
+    {% elif request.resolver_match.url_name == 'listbydirector' %}
+    <h1>Director: <span class="badge badge-light" style="font-family: 'Noto Sans KR', sans-serif;">{{ director.name }}</span> List <a href="{% url 'movies:directorlist' %}" class="btn btn-primary mx-2" style="font-family: 'Jua', sans-serif;">뒤로</a></h1>
+    {% elif request.resolver_match.url_name == 'genrelist' %}
+    <h1>Genre List <a href="{% url 'movies:index' %}" class="btn btn-primary mx-2" style="font-family: 'Jua', sans-serif;">뒤로</a></h1>
+    {% elif request.resolver_match.url_name == 'directorlist' %}
+    <h1>Director List <a href="{% url 'movies:index' %}" class="btn btn-primary mx-2" style="font-family: 'Jua', sans-serif;">뒤로</a></h1>
+    {% elif request.resolver_match.url_name == 'poplist' %}
+    <h1>List by Popularity <a href="{% url 'movies:index' %}" class="btn btn-primary mx-2" style="font-family: 'Jua', sans-serif;">뒤로</a></h1>
+    {% elif request.resolver_match.url_name == 'listbyp_score' %}
+    <h1>List by Comment Score<a href="{% url 'movies:index' %}" class="btn btn-primary mx-2" style="font-family: 'Jua', sans-serif;">뒤로</a></h1>
+    {% elif request.resolver_match.url_name == 'listbys_score' %}
+    <h1>List by Review Score <a href="{% url 'movies:index' %}" class="btn btn-primary mx-2" style="font-family: 'Jua', sans-serif;">뒤로</a></h1>
+    {% elif request.resolver_match.url_name == 'listbyaudience' %}
+    <h1>List by Audience <a href="{% url 'movies:index' %}" class="btn btn-primary mx-2" style="font-family: 'Jua', sans-serif;">뒤로</a></h1>
+    {% endif %}
+</div>
+
+
+{% if request.resolver_match.url_name != 'listbygenre' %}
+{% if request.resolver_match.url_name != 'listbydirector' %}
+{% if request.resolver_match.url_name != 'genrelist' %}
+{% if request.resolver_match.url_name != 'directorlist' %}
+<div class="d-flex justify-content-center mt-3 mb-3" style="font-family: 'Noto Serif KR', serif;">
+    <a href="{% url 'movies:listbytitle' %}" class="btn btn-outline-success mx-2">제목으로 정렬</a>
+    <a href="{% url 'movies:listbys_score' %}" class="btn btn-outline-success mx-2">댓글 평점 기준 정렬</a>
+    <a href="{% url 'movies:listbyp_score' %}" class="btn btn-outline-success mx-2">리뷰 평점 기준 정렬</a>
+    <a href="{% url 'movies:poplist' %}" class="btn btn-outline-success mx-2">인기도 기준 정렬</a>
+    <a href="{% url 'movies:listbyaudience' %}" class="btn btn-outline-success mx-2">누적 관객수 기준 정렬</a>
+    <a href="{% url 'movies:listbyfollow' %}" class="btn btn-outline-success mx-2">팔로우 유저들의 영화 목록</a>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endif %}
+
+
+
+<!--각 리스트들 내용 나타내기-->
+{% if indexlist %}
+    
+    <!--장르리스트-->
+    {% if request.resolver_match.url_name == 'genrelist' %}
+        {% for indexitem in indexlist %}
+        <a href="{% url 'movies:listbygenre' indexitem.pk %}" style="font-family: 'Noto Sans KR', sans-serif;"><button type="button" class="btn btn-outline-light mb-1 mt-2">{{ indexitem }}</button></a>
+        {% endfor %}
+    <!--감독리스트-->
+    {% elif request.resolver_match.url_name == 'directorlist' %}
+        {% include 'movies/_directorlist.html' %}
+    {% endif %}
+    
+{% endif %}
+
+<!--무비 리스트-->
+{% if movies %}
+    {% include 'movies/_movielist.html' %}
+{% endif %}
+
+
+
+
+
+
+{% if request.resolver_match.url_name == 'listbyfollow' %}
+
+<div class="list-group mx-5">
+    
+    {% for person in people.followings.all %}
+        <h3 style="color:white; font-family: 'Jua', sans-serif;" class="mb-3">{{ person.profile.nickname }}님이 좋아요를 누른 영화 목록</h3>
+        <div class="row">
+        {% for movie in person.like_movies.all %}
+            <a class="card bg-dark text-white col-xl-4 col-md-6 col-12 list-group-item-action p-0" href="{% url 'movies:moviedetail' movie.id %}">
+                <img src="{{ movie.poster_url}}" class="card-img" style="opacity:0.7;" alt="{{ movie.title }}사진">
+                <div class="card-img-overlay">
+                    <h1 class="card-title" style="font-family: 'East Sea Dokdo', cursive;"><strong>{{ movie.title }}</strong></h1>
+                    <p class="card-text" style="font-family: 'Noto Sans KR', sans-serif;">{{ movie.overview|truncatechars:96 }}</p>
+                    <h5><span class="badge alert-primary badge-pill">API 기준 : {{ movie.vote }}점</span></h5>
+                    {% if movie.s_score %}
+                        <h5><span class="badge alert-info badge-pill">댓글 기준 : {{ movie.s_score }}점</span></h5> 
+                    {% else %}
+                        <h5><span class="badge alert-info badge-pill">댓글 평점이 없습니다</span></h5> 
+                    {% endif %}
+                    {% if movie.p_score %}
+                        <h5><span class="badge alert-warning badge-pill">리뷰 기준 : {{ movie.p_score }}점</span></h5> 
+                    {% else %}
+                        <h5><span class="badge alert-warning badge-pill">리뷰 평점이 없습니다</span></h5> 
+                    {% endif %}
+                </div>
+            </a>
+        {% empty %}
+            <h5 style="color:white; font-family: 'Jua', sans-serif;" class="mb-2 ml-5">좋아요를 누른 영화가 없습니다</h5>
+        {% endfor %}
+        </div>
+        <br>
+        <br>
+{% endfor %}
+</div>
+
+
+{% endif %}
+
+
+
+
+
+
+
+{% if request.resolver_match.url_name == 'listbytitle' %}
+<div><a href="{% url 'movies:index' %}" class="btn btn-primary" style="font-family: 'Jua', sans-serif;">뒤로</a></div>
+{% elif request.resolver_match.url_name == 'listbygenre' %}
+<div><a href="{% url 'movies:genrelist' %}" class="btn btn-primary" style="font-family: 'Jua', sans-serif;">뒤로</a></div>
+{% elif request.resolver_match.url_name == 'listbydirector' %}
+<div><a href="{% url 'movies:directorlist' %}" class="btn btn-primary" style="font-family: 'Jua', sans-serif;">뒤로</a></div>
+{% elif request.resolver_match.url_name == 'genrelist' %}
+{% else %}
+<div><a href="{% url 'movies:index' %}" class="btn btn-primary" style="font-family: 'Jua', sans-serif;">뒤로</a></div>
+{% endif %}
+
+
+{% endblock %}

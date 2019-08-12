@@ -1,0 +1,48 @@
+{% extends 'base.html' %} {% block title %} Postlist {% endblock %} {% block content %}
+<style type="text/css">
+    h1 {
+        color: white;
+        font-family: 'Anton', sans-serif;
+    }
+</style>
+
+<h1 class="mt-5">Review</h1>
+<div class="d-flex justify-content-end">
+  <a href="{% url 'movies:postcreate' %}" class="btn alert-primary" style="font-family: 'Noto Sans KR', sans-serif;">리뷰 작성</a>
+</div>
+<br>
+
+<div class="list-group">
+  {% for post in posts %}
+  <a href="{% url 'movies:postdetail' post.pk %}" class="list-group-item list-group-item-action">
+
+
+    <div class="media row align-items-center">
+      
+      <div class="col-1 d-block">
+      <img src="{{ post.movie.poster_url_low}}" style="height:70px; width:70px;" class="m-0" alt="{{ post.movie }}포스터">
+      </div>
+      
+      <div class="col-9 d-flex align-items-around">
+      <div class="media-body mx-3">
+        <h5 class="mb-1 align-items-center" style="display:flex;">
+          <strong>{{ post.title }} - {{ post.score }}점</strong>
+          <span class="badge badge-pill alert-dark mx-2" style="font-family: 'Jua', sans-serif;">작성자 : {{ post.user.profile.nickname }}</span>
+        </h5>
+        <p class="mb-1">{{ post.content|truncatechars:36 }}</p>
+        <small><b>{{ post.movie }}</b></small>
+      </div>
+      </div>
+      
+      <div class="col-2 justify-content-end">
+        <small class="text-end justify-content-end" style="display:inline;">{{ post.created_at | timesince }}</small>
+      </div>
+      
+    </div>
+      
+    
+  </a>
+  {% endfor %}
+</div>
+
+{% endblock %}

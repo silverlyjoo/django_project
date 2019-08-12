@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+<style type="text/css">
+    h1 {
+        color:#fff;
+    }
+</style>
+
+<h1>프로필 수정</h1>
+<form action="" method="POST" class="bg-light p-3 rounded mt-3">
+    {% csrf_token %}
+    {% bootstrap_form profile_form %}
+    <div class="d-flex justify-content-between align-items-center">
+    {% buttons submit="수정" reset="Cancel" %}{% endbuttons %}
+    <a href="{% url 'people' user.username %}" class="btn btn-info align-self-center">Back</a>
+    </div>
+</form>
+{% endblock %}

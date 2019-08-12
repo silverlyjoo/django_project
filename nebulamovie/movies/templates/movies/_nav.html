@@ -1,0 +1,35 @@
+<!-- Navigation Bar -->
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background-color:rgba(47, 43, 104, 0.7)">
+    <a class="navbar-brand" href="{% url 'movies:index' %}" style="font-family: 'Lobster', cursive;"><img class="mx-1" src="{% static 'movies/images/saturn.png'%}" style="height:30px; width:30px;"></img>NEBULA</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto" style="font-family: 'Permanent Marker', cursive;">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'movies:index' %}">MAIN<span class="sr-only">(current)</span></a>
+            </li>
+                {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'movies:explore' %}">Users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'people' user.username %}">My Page</a>
+            </li>
+            <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:logout' %}">Log out</a>
+            </li>
+                {% else %}
+            <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:login' %}">Log In</a>
+            </li>
+            <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:signup' %}">Sign Up</a>
+            </li>
+                {% endif %}
+        
+        
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,72 @@
+{% load static %}
+<div class="site-section bg-image overlay counter mt-5" style="background-color: white; opacity:0.9;" id="about-section">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-6 mb-4 d-flex justify-content-center align-items-center">
+        <figure class="block-img-video-1" data-aos="fade">
+            <span class="icon"><span class="icon-play"></span></span>
+            <img src="{{ movie.poster_url_low }}" alt="PosterImage" class="img-fluid mt-5">
+        </figure>
+      </div>
+      <div class="col-lg-5 ml-auto align-self-lg-center mx-5 mt-3">
+        <h1 class="text-black mb-4 text-uppercase section-title" style="font-family: 'Black Han Sans', sans-serif;">{{ movie.title }}</h1>
+        <hr>
+        
+        <h4 class="m-0">
+          {% if user.is_authenticated %}
+          <a href="#" data-id="{{ movie.pk }}" 
+          class="badge {% if user in movie.like_users.all %}badge-primary{% else %}badge-light{% endif %} badge-pill mx-1 like-button" id="like-count-{{ movie.pk }}">
+            좋아요 {{ movie.like_users.count }}
+          </a>
+          {% else %}
+          <span class="badge {% if user in movie.like_users.all %}badge-primary{% else %}badge-light{% endif %} badge-pill mx-1">
+            좋아요 {{ movie.like_users.count }}
+          </span>
+          {% endif %}
+        </h4>
+        
+        <br>
+        
+        <h6 class="text-black" style="font-family: 'Noto Serif KR', serif;">{{ movie.overview }} ...</h6>
+        {% for genre in movie.genres.all %}
+        <h5 style="display:inline"><a href="{% url 'movies:listbygenre' genre.id %}" class="text-black badge badge-pill badge-dark" style="font-family: 'Jua', sans-serif;">{{ genre }}</a></h5>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-4 col-lg-0 col-lg-3">
+        <div class="block-counter-1">
+          <span class="number"><span data-number="{{ movie.popularity }}">{{ movie.popularity }}</span></span>
+          <h4 class="caption text-black" style="font-family: 'Lobster', cursive;">Popularity</h4>
+        </div>
+      </div>
+      <div class="col-md-6 mb-4 col-lg-0 col-lg-3">
+        <div class="block-counter-1">
+          <span class="number"><span data-number="{{ movie.audience }}">{{ movie.audience }}</span></span>
+          <h4 class="caption text-black" style="font-family: 'Lobster', cursive;">Audience</h4>
+        </div>
+      </div>
+      <div class="col-md-6 mb-4 col-lg-0 col-lg-3">
+        <div class="block-counter-1">
+          {% if movie.s_score %}
+          <span class="number"><span data-number="{{ movie.s_score }}">{{ movie.s_score }}</span></span>
+          {% else %}
+          <span class="number"><span data-number="0">0</span></span>
+          {% endif %}
+          <h4 class="caption text-black" style="font-family: 'Lobster', cursive;">Score Avg</h4>
+        </div>
+      </div>
+      <div class="col-md-6 mb-4 col-lg-0 col-lg-3">
+        <div class="block-counter-1">
+          {% if movie.p_score %}
+          <span class="number"><span data-number="{{ movie.p_score }}">{{ movie.p_score }}</span></span>
+          {% else %}
+          <span class="number"><span data-number="0">0</span></span>
+          {% endif %}
+          <h4 class="caption text-black" style="font-family: 'Lobster', cursive;">Review Avg</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
